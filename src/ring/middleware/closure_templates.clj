@@ -22,12 +22,12 @@
   (if (:dynamic opts)
     ; compile tofu inside handler per request
     (fn [req]
-      (let [{body :body :as result} (app req)
-            tofu (soy/from-files templates (:globals opts))]
-        (assoc result :body (render tofu body))))
+      (when-let [{body :body :as result} (app req)]
+        (let [tofu (soy/from-files templates (:globals opts))]
+          (assoc result :body (render tofu body)))))
 
     ; else compile tofu once at setup
     (let [tofu (soy/from-files templates (:globals opts))]
       (fn [req]
-        (let [{body :body :as result} (app req)]
+        (when-let [{body :body :as result} (app req)]
           (assoc result :body (render tofu body)))))))
