@@ -1,0 +1,7 @@
+pom.xml
+*jar
+*.sw[po]
+/lib/
+/classes/
+.lein-failures
+.lein-deps-sum
